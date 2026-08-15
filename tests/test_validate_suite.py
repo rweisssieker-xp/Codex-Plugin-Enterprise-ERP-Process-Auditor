@@ -25,6 +25,11 @@ def create_minimum_suite(plugin_root: Path) -> None:
         "erp-governance-traceability",
         "Validation Owner; reversal condition\n",
     )
+    write_skill(
+        plugin_root,
+        "erp-process-playbooks",
+        "## O2C\n## P2P\n## R2R\n## M2M\n## Warehouse and Inventory\n## Pricing\n## Master Data\n",
+    )
 
 
 def write_skill(plugin_root: Path, name: str, content: str) -> None:
@@ -67,6 +72,14 @@ class ValidateSuiteTests(unittest.TestCase):
             "erp-evidence-intake: missing unsupported-hypothesis traceability rule",
             errors,
         )
+
+    def test_playbook_lists_all_domains(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_skill(plugin_root, "erp-process-playbooks", "## O2C\n## P2P")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("erp-process-playbooks: missing domain R2R", errors)
 
 
 if __name__ == "__main__":

@@ -27,6 +27,16 @@ REQUIRED_PHRASES = {
     "erp-governance-traceability": ["Validation Owner", "reversal condition"],
 }
 
+PLAYBOOK_DOMAINS = (
+    "O2C",
+    "P2P",
+    "R2R",
+    "M2M",
+    "Warehouse and Inventory",
+    "Pricing",
+    "Master Data",
+)
+
 
 def validate_plugin_root(plugin_root: Path) -> list[str]:
     """Return structural errors for a plugin root; an empty list is valid."""
@@ -38,6 +48,11 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
             continue
 
         required_phrases = REQUIRED_PHRASES.get(name, [])
+        if name == "erp-process-playbooks":
+            content = skill_path.read_text(encoding="utf-8")
+            for domain in PLAYBOOK_DOMAINS:
+                if f"## {domain}" not in content:
+                    errors.append(f"{name}: missing domain {domain}")
         if required_phrases:
             content = skill_path.read_text(encoding="utf-8")
             if name == "erp-evidence-intake":

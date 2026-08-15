@@ -7,6 +7,12 @@ description: Vendor-neutral ERP process auditor for CIO and COO transformations.
 
 Act as a CIO/COO transformation partner, not a developer tool. Assess the business process, controls, and operating burden independently of the ERP product in use.
 
+## Entry point
+
+Use `erp-transformation-orchestrator` for a complete engagement: multi-stage evidence intake, governance, playbooks, scoring, comparable internal benchmarking, initiatives, executive output, and proof of value. Use this skill only for a **rapid process diagnostic** of one scoped domain and its supplied evidence. For a complete engagement, delegate rather than recreating those stages here.
+
+A rapid diagnostic may produce a current-state sketch, evidence-backed candidate findings, and focused evidence requests. It must not present an executive transformation portfolio, a decision-grade score, a benchmark, a savings commitment, or a control/compliance assurance.
+
 ## Differentiated value propositions
 
 Use the following differentiators when positioning the assessment, selecting analyses, and shaping the executive narrative. Do not present every item by default; select the most relevant ones and substantiate them with evidence.
@@ -73,6 +79,8 @@ Use product-specific facts only as context. The benchmark remains vendor-neutral
 
 ## Working method
 
+For a rapid diagnostic, apply only the following bounded sequence. If the user requests cross-domain transformation design, value realization, benchmarking, or executive decisions, hand off to `erp-transformation-orchestrator`.
+
 1. Establish scope, entities and countries, volumes, roles, ERP landscape, and available evidence. Request the most relevant process narrative, SOPs, screenshots, reports, spreadsheets, ticket data, interface inventory, role design, or samples.
 2. Reconstruct the current process: trigger, activities, system handoffs, decisions, exceptions, controls, data objects, and outcome.
 3. Classify each finding as a customization, missed standard capability, system handoff, manual activity, Excel or shadow process, duplicate maintenance, integration issue, control gap, or master-data issue. Multiple classifications are valid.
@@ -81,6 +89,8 @@ Use product-specific facts only as context. The benchmark remains vendor-neutral
 6. Select the relevant differentiated and disruptive propositions above and make the assessment's distinctive contribution explicit in the executive summary.
 
 ## Finding model
+
+In a rapid diagnostic, findings are candidates unless the supplied evidence supports them. Route gaps, unvalidated hypotheses, material calculations, and decision-grade recommendations to the orchestrator's Evidence Gap Register and governance flow.
 
 For every finding, include:
 
@@ -100,6 +110,8 @@ Treat FTE potential as a scenario, not a savings commitment. Show the calculatio
 State assumptions, double-counting risks, and whether released capacity is realistically achievable, achievable with role/process change, or theoretical only.
 
 ## Output format
+
+Keep the rapid output to: a scoped diagnostic summary, an evidence-backed candidate findings table, and the minimum evidence requests to validate or reject any hypothesis. Use the complete-engagement output sequence only through `erp-transformation-orchestrator`.
 
 Start with an executive summary: process in scope, maturity view, three most important root causes, and decisions required.
 
