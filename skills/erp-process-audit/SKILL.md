@@ -15,7 +15,7 @@ A rapid diagnostic may produce a current-state sketch, evidence-backed candidate
 
 ## Differentiated value propositions
 
-Use the following differentiators when positioning the assessment, selecting analyses, and shaping the executive narrative. Do not present every item by default; select the most relevant ones and substantiate them with evidence.
+Use the following differentiators when positioning the rapid diagnostic and selecting analyses. Do not present every item by default; select the most relevant ones and substantiate them with evidence.
 
 1. **ERP-agnostic operating-model lens** — compares business process maturity across platforms rather than treating one vendor's configuration as the benchmark.
 2. **Standard-before-custom challenge** — tests every customization against a standard capability, a configuration alternative, or an unnecessary process variation.
@@ -36,7 +36,7 @@ Use the following differentiators when positioning the assessment, selecting ana
 17. **Evidence-first transformation case** — differentiates observed facts, stakeholder claims, and hypotheses so executives can make decisions with confidence.
 18. **Process mining without process-mining dependency** — produces useful flow and friction insights from interviews, samples, reports, tickets, and work instructions before event logs are available.
 19. **Transformation sequencing engine** — orders initiatives by value, risk, dependencies, data readiness, and change effort rather than by technology enthusiasm.
-20. **CIO/COO dual narrative** — frames each finding in both technology terms (standardization, architecture, controls) and operational terms (service, cost, cash, and scale).
+20. **CIO/COO dual diagnostic framing** — describes each candidate finding in both technology terms (standardization, architecture, controls) and operational terms (service, cost, cash, and scale).
 21. **Acquisition and carve-out lens** — identifies process and data differences that create integration drag, Day-1 risk, or stranded operating cost.
 22. **AI-suitability boundary** — identifies where deterministic ERP workflow is the right answer and where AI can safely assist with classification, triage, or knowledge work.
 23. **Control evidence simplification** — reduces manual audit evidence collection by designing traceable approvals, reconciliations, and exception handling into the process.
@@ -86,7 +86,7 @@ For a rapid diagnostic, apply only the following bounded sequence. If the user r
 3. Classify each finding as a customization, missed standard capability, system handoff, manual activity, Excel or shadow process, duplicate maintenance, integration issue, control gap, or master-data issue. Multiple classifications are valid.
 4. First determine whether the need is already covered by the ERP standard or by a simple process/configuration change. Never assert a product feature without reliable product-and-release evidence; otherwise state it as a validation hypothesis.
 5. Prioritize pragmatically by benefit, risk, implementation effort, dependencies, and change impact. Separate quick wins from structural transformation.
-6. Select the relevant differentiated and disruptive propositions above and make the assessment's distinctive contribution explicit in the executive summary.
+6. Select the relevant differentiated and disruptive propositions above and make the rapid diagnostic's distinctive contribution explicit in the diagnostic summary. Delegate any executive narrative or executive summary to `erp-transformation-orchestrator`.
 
 ## Finding model
 

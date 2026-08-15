@@ -102,6 +102,17 @@ class ValidateSuiteTests(unittest.TestCase):
                         errors,
                     )
 
+    def test_rapid_audit_delegates_executive_outputs(self):
+        audit_skill = (
+            Path(__file__).resolve().parents[1]
+            / "skills"
+            / "erp-process-audit"
+            / "SKILL.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("Delegate the executive summary", audit_skill)
+        self.assertNotIn("shaping the executive narrative", audit_skill)
+        self.assertNotIn("Start with an executive summary", audit_skill)
+
 
 if __name__ == "__main__":
     unittest.main()

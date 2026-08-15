@@ -59,3 +59,16 @@ Result: the R2R playbook does not infer a close or reconciliation failure. It re
 ## Guardrails checked
 
 The new skills use only user-supplied evidence, prohibit external APIs/connections and invented external benchmarks, constrain FTE/value to transparent orchestrated scenarios, and provide no legal, tax, compliance, audit, security, or savings assurance.
+
+## Round 2 correction
+
+Removed rapid-skill instructions to shape an executive narrative or use an executive summary. The differentiator guidance and working method now limit the rapid skill to its diagnostic summary and explicitly delegate executive narrative/summary to `erp-transformation-orchestrator`. Added a regression test that verifies this delegation and rejects the prior executive-output instructions.
+
+Covering command/result:
+
+```text
+python -m unittest tests/test_validate_suite.py -v
+
+Ran 6 tests in 0.077s
+OK
+```
