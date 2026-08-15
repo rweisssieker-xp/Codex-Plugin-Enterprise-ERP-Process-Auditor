@@ -5,7 +5,7 @@ description: Create evidence and evidence-gap registers from user-supplied ERP t
 
 # ERP Evidence Intake
 
-Use this skill before diagnostic, scoring, benchmarking, or executive-output work. It accepts only the user task context, stakeholder statements, and files explicitly supplied in Codex. It does not connect to ERP systems, external services, or data stores.
+Use this skill before diagnostic, scoring, benchmarking, or executive-output work. It accepts only the user task context, stakeholder statements, and files explicitly supplied in Codex. It supports evidence intake for O2C, P2P, R2R, M2M, warehouse and inventory, pricing, and master-data scopes. It does not connect to ERP systems, external services, or data stores.
 
 ## Intake boundary
 

@@ -1,6 +1,7 @@
 import sys
 import tempfile
 import unittest
+import json
 from pathlib import Path
 
 
@@ -80,6 +81,20 @@ def create_minimum_suite(plugin_root: Path) -> None:
         "Continuous Process Intelligence: recurring evidence refresh; approved "
         "recurring KPI review; no unattended monitoring claim\n",
     )
+    write_manifest(plugin_root)
+
+
+def write_manifest(plugin_root: Path, manifest: dict | None = None) -> None:
+    content = {
+        "name": "erp-process-transformation-agent",
+        "skills": "./skills/",
+        "interface": {"defaultPrompt": ["Run an evidence-backed ERP process review."]},
+    }
+    if manifest is not None:
+        content = manifest
+    manifest_path = plugin_root / ".codex-plugin" / "plugin.json"
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(json.dumps(content), encoding="utf-8")
 
 
 def write_skill(plugin_root: Path, name: str, content: str) -> None:
@@ -95,6 +110,13 @@ def write_template(plugin_root: Path, name: str, content: str) -> None:
 
 
 class ValidateSuiteTests(unittest.TestCase):
+    def test_manifest_declares_skills_and_nonempty_prompts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_manifest(plugin_root, {"name": "erp-process-transformation-agent"})
+            self.assertIn("manifest: missing skills path", validate_plugin_root(plugin_root))
+
     def test_reports_missing_required_skill(self):
         with tempfile.TemporaryDirectory() as directory:
             errors = validate_plugin_root(Path(directory))

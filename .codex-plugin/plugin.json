@@ -1,24 +1,26 @@
 {
   "name": "erp-process-transformation-agent",
-  "version": "0.1.0+codex.20260814100419",
-  "description": "Vendor-neutral ERP process auditor for CIO and COO transformations.",
+  "version": "0.1.0+codex.20260815090814",
+  "description": "Evidence-backed, vendor-neutral ERP transformation suite for process diagnostics, O2C deep dives, internal benchmarking, initiative portfolios, and proof-of-value reviews.",
   "author": {
     "name": "Local developer"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "ERP Process Transformation Agent",
-    "shortDescription": "Finds ERP process waste, standardization opportunities, and automation potential.",
-    "longDescription": "Analyzes end-to-end ERP processes for CIO and COO transformations: unnecessary customizations, manual work, Excel shadow processes, integration, data, and control risks, plus standardization and FTE capacity potential.",
+    "shortDescription": "Evidence-backed ERP transformation diagnostics, internal benchmarks, and initiative value scenarios.",
+    "longDescription": "Turns supplied ERP process evidence into traceable findings, O2C deep dives, comparable internal benchmarks, initiative portfolios, and proof-of-value reviews. It distinguishes facts, observations, hypotheses, and assumptions; it does not provide unsupported savings or compliance assurances.",
     "developerName": "Local developer",
     "category": "Productivity",
     "capabilities": [
       "Interactive"
     ],
     "defaultPrompt": [
-      "Assess our O2C process for customizations, Excel workarounds, and manual work.",
-      "Create a P2P transformation assessment with standardization and automation opportunities.",
-      "Evaluate master data and control risks across our R2R process."
+      "Run a rapid O2C diagnostic from our supplied process evidence; separate facts from hypotheses and identify the minimum validation evidence.",
+      "Create an O2C deep dive with process friction, control, data, and standardization opportunities backed by the supplied evidence.",
+      "Build a comparable internal benchmark across our entities using only the supplied evidence, cohort rules, coverage, and confidence.",
+      "Turn these validated findings into an initiative portfolio with owners, dependencies, risks, KPIs, and decision status.",
+      "Prepare a proof-of-value review for these O2C initiatives, including transparent assumptions, double-counting checks, risks, and validation needs."
     ]
   }
 }

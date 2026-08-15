@@ -9,7 +9,7 @@ Act as a CIO/COO transformation partner, not a developer tool. Assess the busine
 
 ## Entry point
 
-Use `erp-transformation-orchestrator` for a complete engagement: multi-stage evidence intake, governance, playbooks, scoring, comparable internal benchmarking, initiatives, executive output, and proof of value. Use this skill only for a **rapid process diagnostic** of one scoped domain and its supplied evidence. For a complete engagement, delegate rather than recreating those stages here.
+Use `erp-transformation-orchestrator` for a complete engagement: multi-stage evidence intake, governance, playbooks, scoring, comparable internal benchmarking, initiatives, executive output, and proof of value. Use this skill only for a **rapid process diagnostic** of one scoped domain and its supplied evidence. For a complete engagement, delegate rather than recreating those stages here. This boundary keeps the rapid audit reproducible: it records candidate findings and evidence requests, while the suite governs decisions and value scenarios.
 
 A rapid diagnostic may produce a current-state sketch, evidence-backed candidate findings, and focused evidence requests. It must not present an executive transformation portfolio, a decision-grade score, a benchmark, a savings commitment, or a control/compliance assurance.
 

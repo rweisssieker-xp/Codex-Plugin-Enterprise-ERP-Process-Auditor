@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 from pathlib import Path
 
@@ -66,6 +67,7 @@ IMPORT_TEMPLATE = "import-profile.md"
 INITIATIVE_TEMPLATE = "initiative-portfolio.md"
 VALUE_TEMPLATE = "value-register.md"
 OFFER_PACKAGES_TEMPLATE = "offer-packages.md"
+MANIFEST_PATH = ".codex-plugin/plugin.json"
 INITIATIVE_REQUIRED_COLUMNS = {
     "owner function": "owner function",
     "dependencies": "dependencies",
@@ -141,6 +143,22 @@ def without_fenced_code_blocks(content: str) -> str:
 def validate_plugin_root(plugin_root: Path) -> list[str]:
     """Return structural errors for a plugin root; an empty list is valid."""
     errors = []
+    manifest_path = plugin_root / MANIFEST_PATH
+    if not manifest_path.is_file():
+        errors.append("manifest: missing plugin.json")
+    else:
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            errors.append("manifest: invalid JSON")
+        else:
+            if manifest.get("skills") != "./skills/":
+                errors.append("manifest: missing skills path")
+            prompts = manifest.get("interface", {}).get("defaultPrompt")
+            if not isinstance(prompts, list) or not any(
+                isinstance(prompt, str) and prompt.strip() for prompt in prompts
+            ):
+                errors.append("manifest: missing nonempty starter prompts")
     for name in sorted(REQUIRED_SKILLS):
         skill_path = plugin_root / "skills" / name / "SKILL.md"
         if not skill_path.is_file():
