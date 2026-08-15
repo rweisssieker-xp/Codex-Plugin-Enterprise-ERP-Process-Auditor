@@ -1,0 +1,24 @@
+{
+  "name": "erp-process-transformation-agent",
+  "version": "0.1.0+codex.20260814100419",
+  "description": "Vendor-neutral ERP process auditor for CIO and COO transformations.",
+  "author": {
+    "name": "Local developer"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "ERP Process Transformation Agent",
+    "shortDescription": "Finds ERP process waste, standardization opportunities, and automation potential.",
+    "longDescription": "Analyzes end-to-end ERP processes for CIO and COO transformations: unnecessary customizations, manual work, Excel shadow processes, integration, data, and control risks, plus standardization and FTE capacity potential.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive"
+    ],
+    "defaultPrompt": [
+      "Assess our O2C process for customizations, Excel workarounds, and manual work.",
+      "Create a P2P transformation assessment with standardization and automation opportunities.",
+      "Evaluate master data and control risks across our R2R process."
+    ]
+  }
+}
