@@ -14,6 +14,22 @@ def create_minimum_suite(plugin_root: Path) -> None:
         skill_path = plugin_root / "skills" / name / "SKILL.md"
         skill_path.parent.mkdir(parents=True, exist_ok=True)
         skill_path.write_text("# Placeholder\n", encoding="utf-8")
+    write_skill(
+        plugin_root,
+        "erp-evidence-intake",
+        "stakeholder observation; calculation assumption; hypothesis\n",
+    )
+    write_skill(
+        plugin_root,
+        "erp-governance-traceability",
+        "Validation Owner; reversal condition\n",
+    )
+
+
+def write_skill(plugin_root: Path, name: str, content: str) -> None:
+    skill_path = plugin_root / "skills" / name / "SKILL.md"
+    skill_path.parent.mkdir(parents=True, exist_ok=True)
+    skill_path.write_text(content, encoding="utf-8")
 
 
 class ValidateSuiteTests(unittest.TestCase):
@@ -27,6 +43,14 @@ class ValidateSuiteTests(unittest.TestCase):
             plugin_root = Path(directory)
             create_minimum_suite(plugin_root)
             self.assertEqual(validate_plugin_root(plugin_root), [])
+
+    def test_evidence_skill_requires_statement_types(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_skill(plugin_root, "erp-evidence-intake", "# Evidence Intake\n")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("erp-evidence-intake: missing statement-type rule", errors)
 
 
 if __name__ == "__main__":
