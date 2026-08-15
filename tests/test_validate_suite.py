@@ -42,12 +42,29 @@ def create_minimum_suite(plugin_root: Path) -> None:
         "## Manufacturing\n## Distribution\n## Retail\n"
         "## Project Business\n## Regulated Operations\n",
     )
+    write_skill(
+        plugin_root,
+        "erp-executive-transformation",
+        "Facts; Stakeholder observations; Hypotheses; Recommendations\n",
+    )
+    write_template(plugin_root, "import-profile.md", "grain | business key\n")
+    write_template(
+        plugin_root,
+        "executive-pack.md",
+        "## Facts\n## Stakeholder observations\n## Hypotheses\n## Recommendations\n",
+    )
 
 
 def write_skill(plugin_root: Path, name: str, content: str) -> None:
     skill_path = plugin_root / "skills" / name / "SKILL.md"
     skill_path.parent.mkdir(parents=True, exist_ok=True)
     skill_path.write_text(content, encoding="utf-8")
+
+
+def write_template(plugin_root: Path, name: str, content: str) -> None:
+    template_path = plugin_root / "references" / "templates" / name
+    template_path.parent.mkdir(parents=True, exist_ok=True)
+    template_path.write_text(content, encoding="utf-8")
 
 
 class ValidateSuiteTests(unittest.TestCase):
@@ -152,6 +169,35 @@ class ValidateSuiteTests(unittest.TestCase):
             )
             errors = validate_plugin_root(plugin_root)
         self.assertIn("erp-industry-variants: missing industry pattern Distribution", errors)
+
+    def test_executive_skill_requires_fact_hypothesis_separation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_skill(plugin_root, "erp-executive-transformation", "# Executive Outputs")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn(
+            "erp-executive-transformation: missing fact/hypothesis separation", errors
+        )
+
+    def test_import_profile_requires_grain_and_business_key(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(plugin_root, "import-profile.md", "# Import Profile\n")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("import-profile.md: missing grain rule", errors)
+        self.assertIn("import-profile.md: missing business key rule", errors)
+
+    def test_executive_pack_requires_statement_type_headings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(plugin_root, "executive-pack.md", "## Facts\n")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn(
+            "executive-pack.md: missing heading Stakeholder observations", errors
+        )
 
 
 if __name__ == "__main__":

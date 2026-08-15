@@ -53,6 +53,16 @@ INDUSTRY_PATTERNS = (
     "Regulated Operations",
 )
 
+EXECUTIVE_STATEMENT_HEADINGS = (
+    "Facts",
+    "Stakeholder observations",
+    "Hypotheses",
+    "Recommendations",
+)
+
+EXECUTIVE_TEMPLATE = "executive-pack.md"
+IMPORT_TEMPLATE = "import-profile.md"
+
 
 def validate_plugin_root(plugin_root: Path) -> list[str]:
     """Return structural errors for a plugin root; an empty list is valid."""
@@ -81,6 +91,10 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
             for pattern in INDUSTRY_PATTERNS:
                 if f"## {pattern}" not in content:
                     errors.append(f"{name}: missing industry pattern {pattern}")
+        if name == "erp-executive-transformation":
+            content = skill_path.read_text(encoding="utf-8")
+            if not all(heading in content for heading in EXECUTIVE_STATEMENT_HEADINGS):
+                errors.append(f"{name}: missing fact/hypothesis separation")
         if required_phrases:
             content = skill_path.read_text(encoding="utf-8")
             if name == "erp-evidence-intake":
@@ -98,6 +112,25 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
                     )
             elif not all(phrase in content for phrase in required_phrases):
                 errors.append(f"{name}: missing governance traceability rule")
+
+    import_profile_path = plugin_root / "references" / "templates" / IMPORT_TEMPLATE
+    if not import_profile_path.is_file():
+        errors.append(f"missing template: {IMPORT_TEMPLATE}")
+    else:
+        import_profile = import_profile_path.read_text(encoding="utf-8").lower()
+        if "grain" not in import_profile:
+            errors.append(f"{IMPORT_TEMPLATE}: missing grain rule")
+        if "business key" not in import_profile:
+            errors.append(f"{IMPORT_TEMPLATE}: missing business key rule")
+
+    executive_pack_path = plugin_root / "references" / "templates" / EXECUTIVE_TEMPLATE
+    if not executive_pack_path.is_file():
+        errors.append(f"missing template: {EXECUTIVE_TEMPLATE}")
+    else:
+        executive_pack = executive_pack_path.read_text(encoding="utf-8")
+        for heading in EXECUTIVE_STATEMENT_HEADINGS:
+            if f"## {heading}" not in executive_pack:
+                errors.append(f"{EXECUTIVE_TEMPLATE}: missing heading {heading}")
     return errors
 
 
