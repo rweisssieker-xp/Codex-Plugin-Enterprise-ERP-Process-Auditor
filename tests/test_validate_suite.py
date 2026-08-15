@@ -8,12 +8,37 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from validate_suite import (
-    INNOVATION_LENSES,
-    INNOVATION_REGISTER_HEADER,
-    INNOVATION_REQUIRED_FIELDS,
     REQUIRED_SKILLS,
     has_executive_statement_heading,
     validate_plugin_root,
+)
+
+
+EXPECTED_INNOVATION_LENSES = (
+    "Transformation Evidence Graph",
+    "No-Regret Transformation Engine",
+    "Cross-ERP Process Semantic Layer",
+    "Process Variant Genome",
+    "Decision Decay Monitor",
+    "Transformation Memory",
+    "Change-Fatigue Forecast",
+    "Policy-to-Control Compiler",
+    "Value Leakage Escrow",
+    "Counterfactual Transformation Twin",
+    "Autonomy Ladder",
+    "Executive Attention Allocation",
+)
+EXPECTED_INNOVATION_REQUIRED_FIELDS = (
+    "Metric",
+    "Kill Condition",
+    "Owner",
+    "Guardrails",
+    "Next Validation",
+)
+EXPECTED_INNOVATION_REGISTER_HEADER = (
+    "Opportunity ID | Innovation Lens | Target Audience | Workflow Replaced | "
+    "Differentiator | Evidence IDs | Assumptions | Metric | Kill Condition | "
+    "Owner | Guardrails | Confidence | Next Validation | Decision Status"
 )
 
 
@@ -58,7 +83,9 @@ def create_minimum_suite(plugin_root: Path) -> None:
     write_skill(
         plugin_root,
         "erp-transformation-innovation",
-        "\n".join((*INNOVATION_LENSES, *INNOVATION_REQUIRED_FIELDS)),
+        "\n".join(
+            (*EXPECTED_INNOVATION_LENSES, *EXPECTED_INNOVATION_REQUIRED_FIELDS)
+        ),
     )
     write_template(plugin_root, "import-profile.md", "grain | business key\n")
     write_template(
@@ -89,7 +116,11 @@ def create_minimum_suite(plugin_root: Path) -> None:
         "Continuous Process Intelligence: recurring evidence refresh; approved "
         "recurring KPI review; no unattended monitoring claim\n",
     )
-    write_template(plugin_root, "innovation-opportunity-register.md", INNOVATION_REGISTER_HEADER)
+    write_template(
+        plugin_root,
+        "innovation-opportunity-register.md",
+        EXPECTED_INNOVATION_REGISTER_HEADER,
+    )
     write_manifest(plugin_root)
 
 
@@ -382,27 +413,59 @@ class ValidateSuiteTests(unittest.TestCase):
             errors,
         )
 
-    def test_innovation_layer_requires_all_lenses_and_safety_fields(self):
+    def test_innovation_layer_requires_each_lens(self):
         with tempfile.TemporaryDirectory() as directory:
             plugin_root = Path(directory)
-            create_minimum_suite(plugin_root)
-            write_skill(plugin_root, "erp-transformation-innovation", "# Innovation Layer\n")
-            errors = validate_plugin_root(plugin_root)
-        self.assertIn(
-            "erp-transformation-innovation: missing lens Transformation Evidence Graph",
-            errors,
-        )
-        self.assertIn("erp-transformation-innovation: missing Metric", errors)
-        self.assertIn("erp-transformation-innovation: missing Kill Condition", errors)
-        self.assertIn("erp-transformation-innovation: missing Owner", errors)
-        self.assertIn("erp-transformation-innovation: missing Guardrails", errors)
-        self.assertIn("erp-transformation-innovation: missing Next Validation", errors)
+            for missing_lens in EXPECTED_INNOVATION_LENSES:
+                with self.subTest(missing_lens=missing_lens):
+                    create_minimum_suite(plugin_root)
+                    write_skill(
+                        plugin_root,
+                        "erp-transformation-innovation",
+                        "\n".join(
+                            lens
+                            for lens in EXPECTED_INNOVATION_LENSES
+                            if lens != missing_lens
+                        ),
+                    )
+                    errors = validate_plugin_root(plugin_root)
+                    self.assertIn(
+                        f"erp-transformation-innovation: missing lens {missing_lens}",
+                        errors,
+                    )
 
-    def test_innovation_register_requires_exact_header(self):
+    def test_innovation_layer_requires_each_safety_field(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            for missing_field in EXPECTED_INNOVATION_REQUIRED_FIELDS:
+                with self.subTest(missing_field=missing_field):
+                    create_minimum_suite(plugin_root)
+                    write_skill(
+                        plugin_root,
+                        "erp-transformation-innovation",
+                        "\n".join(
+                            (*EXPECTED_INNOVATION_LENSES,)
+                            + tuple(
+                                field
+                                for field in EXPECTED_INNOVATION_REQUIRED_FIELDS
+                                if field != missing_field
+                            )
+                        ),
+                    )
+                    errors = validate_plugin_root(plugin_root)
+                    self.assertIn(
+                        f"erp-transformation-innovation: missing {missing_field}",
+                        errors,
+                    )
+
+    def test_innovation_register_rejects_exact_header_mutation(self):
         with tempfile.TemporaryDirectory() as directory:
             plugin_root = Path(directory)
             create_minimum_suite(plugin_root)
-            write_template(plugin_root, "innovation-opportunity-register.md", "Opportunity ID | Metric\n")
+            mutated_header = EXPECTED_INNOVATION_REGISTER_HEADER.replace(
+                "Workflow Replaced", "Workflow Replacement"
+            )
+            write_template(plugin_root, "innovation-opportunity-register.md", mutated_header)
             errors = validate_plugin_root(plugin_root)
         self.assertIn("innovation register: missing exact header", errors)
 
