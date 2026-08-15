@@ -1,0 +1,5 @@
+.codex-orchestrator/
+.superpowers/
+.worktrees/
+__pycache__/
+*.pyc
