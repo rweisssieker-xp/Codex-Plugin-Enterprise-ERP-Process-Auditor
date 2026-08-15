@@ -20,3 +20,9 @@
 - Final: `python scripts/validate_suite.py .` — passed.
 - Manual scenario readiness: the executive-pack template has separate known/unknown sections, a decisions-required table, and open-evidence table for a three-finding/two-gap steering-committee prompt.
 - Self-review: `git diff --check` completed without whitespace errors.
+
+## Round 1 validator correction
+
+- Replaced executive-pack substring checks with a line-anchored Markdown-heading regex that accepts only level 2 or level 3 headings.
+- Added a negative test proving prose and inline code containing the required heading text do not satisfy the heading contract, plus a positive level-3-heading test.
+- Verification: `python -m unittest tests/test_validate_suite.py -v` — 13 tests passed; `python scripts/validate_suite.py .` — passed; `git diff --check` — passed.

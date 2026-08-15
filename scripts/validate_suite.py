@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 from pathlib import Path
 
 
@@ -62,6 +63,12 @@ EXECUTIVE_STATEMENT_HEADINGS = (
 
 EXECUTIVE_TEMPLATE = "executive-pack.md"
 IMPORT_TEMPLATE = "import-profile.md"
+
+
+def has_executive_statement_heading(content: str, heading: str) -> bool:
+    """Return whether an executive statement label is a level 2 or 3 heading."""
+    pattern = rf"^#{{2,3}}[ \t]+{re.escape(heading)}[ \t]*(?:#+[ \t]*)?$"
+    return re.search(pattern, content, flags=re.MULTILINE) is not None
 
 
 def validate_plugin_root(plugin_root: Path) -> list[str]:
@@ -129,7 +136,7 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
     else:
         executive_pack = executive_pack_path.read_text(encoding="utf-8")
         for heading in EXECUTIVE_STATEMENT_HEADINGS:
-            if f"## {heading}" not in executive_pack:
+            if not has_executive_statement_heading(executive_pack, heading):
                 errors.append(f"{EXECUTIVE_TEMPLATE}: missing heading {heading}")
     return errors
 

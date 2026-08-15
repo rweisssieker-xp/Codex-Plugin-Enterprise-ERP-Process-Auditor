@@ -199,6 +199,36 @@ class ValidateSuiteTests(unittest.TestCase):
             "executive-pack.md: missing heading Stakeholder observations", errors
         )
 
+    def test_executive_pack_rejects_prose_and_inline_code_as_headings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(
+                plugin_root,
+                "executive-pack.md",
+                "Required sections include `## Facts`, `## Stakeholder observations`, "
+                "`## Hypotheses`, and `## Recommendations`.\n",
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("executive-pack.md: missing heading Facts", errors)
+        self.assertIn(
+            "executive-pack.md: missing heading Stakeholder observations", errors
+        )
+        self.assertIn("executive-pack.md: missing heading Hypotheses", errors)
+        self.assertIn("executive-pack.md: missing heading Recommendations", errors)
+
+    def test_executive_pack_accepts_level_three_statement_headings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(
+                plugin_root,
+                "executive-pack.md",
+                "### Facts\n### Stakeholder observations\n"
+                "### Hypotheses\n### Recommendations\n",
+            )
+            self.assertEqual(validate_plugin_root(plugin_root), [])
+
 
 if __name__ == "__main__":
     unittest.main()
