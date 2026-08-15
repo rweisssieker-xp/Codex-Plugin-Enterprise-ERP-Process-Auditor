@@ -36,3 +36,14 @@ The initial P2P routing failure and its resolution are recorded as `REL-2026-08-
 ## Release note
 
 The cachebuster command targets `C:\Users\reinerw\plugins\erp-process-transformation-agent`, outside this worktree. It updated that release root's manifest; the identical version is included in this worktree's committed manifest.
+
+## Round 1 release-root synchronization
+
+The release root on `codex/erp-transformation-suite` was verified as an ancestor of the reviewed implementation commit, `4d152f89685d414ec4e1a44e1fd06e222f0f6a5a`. Its only local change was the known cachebuster version update. That change was temporarily stashed, the branch was fast-forwarded to the reviewed implementation, and the redundant stash was dropped after semantic manifest comparison confirmed the incoming manifest contains the same version.
+
+Post-sync release-root validation passed:
+
+- `python -m unittest tests/test_validate_suite.py -v` — 21 tests passed.
+- `python scripts/validate_suite.py .` — passed.
+- Plugin validator — passed.
+- Release-root and reviewed-worktree manifests — JSON-equivalent (the byte-level file hashes differ only due to checkout line endings).
