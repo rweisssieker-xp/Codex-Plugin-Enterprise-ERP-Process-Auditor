@@ -82,6 +82,16 @@ INNOVATION_LENSES = (
     "Counterfactual Transformation Twin",
     "Autonomy Ladder",
     "Executive Attention Allocation",
+    "Transformation Decision Compiler",
+    "Process Friction-to-Policy Mapper",
+    "ERP Change Blast-Radius Map",
+    "Standard Capability Proof Pack",
+    "Operational Resilience Score",
+    "Exception Half-Life Tracker",
+    "ERP Knowledge Concentration Risk",
+    "Transformation Reuse Index",
+    "Decision Latency Cost Model",
+    "Process Exit Strategy",
 )
 INNOVATION_REQUIRED_FIELDS = (
     "Metric",
@@ -90,10 +100,19 @@ INNOVATION_REQUIRED_FIELDS = (
     "Guardrails",
     "Next Validation",
 )
+INNOVATION_OPTIONAL_EVIDENCE_FIELDS = (
+    "Blast Radius",
+    "Knowledge Concentration",
+    "Decision Latency",
+    "Reuse Potential",
+    "Exit Criterion",
+)
 INNOVATION_REGISTER_HEADER = (
     "Opportunity ID | Innovation Lens | Target Audience | Workflow Replaced | "
     "Differentiator | Evidence IDs | Assumptions | Metric | Kill Condition | "
-    "Owner | Guardrails | Confidence | Next Validation | Decision Status"
+    "Owner | Guardrails | Confidence | Blast Radius | Knowledge Concentration | "
+    "Decision Latency | Reuse Potential | Exit Criterion | Next Validation | "
+    "Decision Status"
 )
 MANIFEST_PATH = ".codex-plugin/plugin.json"
 README_PATH = "README.md"
@@ -312,6 +331,9 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
         errors.append(f"missing template: {INNOVATION_TEMPLATE}")
     else:
         innovation_register = innovation_path.read_text(encoding="utf-8")
+        for field in INNOVATION_OPTIONAL_EVIDENCE_FIELDS:
+            if field not in innovation_register:
+                errors.append(f"innovation register: missing field {field}")
         if INNOVATION_REGISTER_HEADER not in innovation_register:
             errors.append("innovation register: missing exact header")
     return errors

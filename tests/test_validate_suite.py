@@ -28,6 +28,19 @@ EXPECTED_INNOVATION_LENSES = (
     "Autonomy Ladder",
     "Executive Attention Allocation",
 )
+EXPANSION_LENSES = (
+    "Transformation Decision Compiler",
+    "Process Friction-to-Policy Mapper",
+    "ERP Change Blast-Radius Map",
+    "Standard Capability Proof Pack",
+    "Operational Resilience Score",
+    "Exception Half-Life Tracker",
+    "ERP Knowledge Concentration Risk",
+    "Transformation Reuse Index",
+    "Decision Latency Cost Model",
+    "Process Exit Strategy",
+)
+EXPECTED_INNOVATION_LENSES = (*EXPECTED_INNOVATION_LENSES, *EXPANSION_LENSES)
 EXPECTED_INNOVATION_REQUIRED_FIELDS = (
     "Metric",
     "Kill Condition",
@@ -35,10 +48,19 @@ EXPECTED_INNOVATION_REQUIRED_FIELDS = (
     "Guardrails",
     "Next Validation",
 )
+EXPANSION_REGISTER_FIELDS = (
+    "Blast Radius",
+    "Knowledge Concentration",
+    "Decision Latency",
+    "Reuse Potential",
+    "Exit Criterion",
+)
 EXPECTED_INNOVATION_REGISTER_HEADER = (
     "Opportunity ID | Innovation Lens | Target Audience | Workflow Replaced | "
     "Differentiator | Evidence IDs | Assumptions | Metric | Kill Condition | "
-    "Owner | Guardrails | Confidence | Next Validation | Decision Status"
+    "Owner | Guardrails | Confidence | Blast Radius | Knowledge Concentration | "
+    "Decision Latency | Reuse Potential | Exit Criterion | Next Validation | "
+    "Decision Status"
 )
 
 
@@ -464,6 +486,27 @@ class ValidateSuiteTests(unittest.TestCase):
                         errors,
                     )
 
+    def test_innovation_layer_requires_each_expansion_lens(self):
+        for missing_lens in EXPANSION_LENSES:
+            with self.subTest(missing_lens=missing_lens):
+                with tempfile.TemporaryDirectory() as directory:
+                    plugin_root = Path(directory)
+                    create_minimum_suite(plugin_root)
+                    write_skill(
+                        plugin_root,
+                        "erp-transformation-innovation",
+                        "\n".join(
+                            lens
+                            for lens in EXPECTED_INNOVATION_LENSES
+                            if lens != missing_lens
+                        ),
+                    )
+                    errors = validate_plugin_root(plugin_root)
+                self.assertIn(
+                    f"erp-transformation-innovation: missing lens {missing_lens}",
+                    errors,
+                )
+
     def test_innovation_layer_requires_each_safety_field(self):
         with tempfile.TemporaryDirectory() as directory:
             plugin_root = Path(directory)
@@ -498,6 +541,24 @@ class ValidateSuiteTests(unittest.TestCase):
             write_template(plugin_root, "innovation-opportunity-register.md", mutated_header)
             errors = validate_plugin_root(plugin_root)
         self.assertIn("innovation register: missing exact header", errors)
+
+    def test_innovation_register_requires_each_expansion_field(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            for missing_field in EXPANSION_REGISTER_FIELDS:
+                with self.subTest(missing_field=missing_field):
+                    create_minimum_suite(plugin_root)
+                    write_template(
+                        plugin_root,
+                        "innovation-opportunity-register.md",
+                        EXPECTED_INNOVATION_REGISTER_HEADER.replace(
+                            f" | {missing_field}", "", 1
+                        ),
+                    )
+                    errors = validate_plugin_root(plugin_root)
+                    self.assertIn(
+                        f"innovation register: missing field {missing_field}", errors
+                    )
 
 
 if __name__ == "__main__":

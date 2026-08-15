@@ -31,12 +31,22 @@ Treat each lens below as a hypothesis-generation prompt, never as a factual capa
 10. **Counterfactual Transformation Twin** — test a stated comparison between the current evidence-backed workflow and a bounded alternative scenario.
 11. **Autonomy Ladder** — test which decision or activity remains human-approved at each proposed level of assistance.
 12. **Executive Attention Allocation** — test whether evidence strength, impact, uncertainty, and decision timing warrant executive attention now.
+13. **Transformation Decision Compiler** — test whether supplied decisions, evidence, assumptions, and approval conditions can be assembled into a reviewable decision input without creating an approval.
+14. **Process Friction-to-Policy Mapper** — test whether supplied friction and policy evidence supports a proposed, reviewable policy clarification or control hypothesis.
+15. **ERP Change Blast-Radius Map** — test whether supplied process, interface, role, control, and data dependencies identify the proposed scope affected by a change; do not infer dependencies that are not supplied.
+16. **Standard Capability Proof Pack** — test whether user-supplied evidence documents a stated standard capability and its fit for the bounded process need; do not claim vendor capability without supplied evidence.
+17. **Operational Resilience Score** — test whether supplied resilience signals, measurement scope, and assumptions support a bounded scoring hypothesis; do not present the score as assurance.
+18. **Exception Half-Life Tracker** — test whether supplied exception records support a measurable hypothesis about time from exception creation to resolution within the stated period and scope.
+19. **ERP Knowledge Concentration Risk** — test whether supplied role, ownership, documentation, or dependency evidence indicates a knowledge-concentration risk hypothesis.
+20. **Transformation Reuse Index** — test whether supplied artifacts, process variants, and reuse criteria support a bounded hypothesis about reuse potential; do not claim repeatability without evidence.
+21. **Decision Latency Cost Model** — test whether supplied decision timing, operational impact, and calculation assumptions support a scenario; do not state cost or value outcomes without supplied inputs.
+22. **Process Exit Strategy** — test whether supplied scope, dependencies, ownership, guardrails, and exit conditions support a reversible transition or cessation hypothesis.
 
 ## Opportunity register
 
 Use `references/templates/innovation-opportunity-register.md`. Create an entry only when its evidence basis, assumptions, and uncertainty can be recorded. Use `not supplied` for unavailable information and request the smallest missing input; do not manufacture a value.
 
-For each opportunity, record the target audience and the workflow replaced as a proposed scope, the differentiator as a hypothesis, direct Evidence IDs, Assumptions, Metric, Kill Condition, Owner, Guardrails, Confidence, reversible Next Validation, and Decision Status. A Kill Condition must state what result, threshold, or evidence gap stops the experiment. Guardrails must state the protected boundary, including that execution remains outside this skill.
+For each opportunity, record the target audience and the workflow replaced as a proposed scope, the differentiator as a hypothesis, direct Evidence IDs, Assumptions, Metric, Kill Condition, Owner, Guardrails, Confidence, reversible Next Validation, and Decision Status. Record Blast Radius, Knowledge Concentration, Decision Latency, Reuse Potential, and Exit Criterion when supported by user-supplied evidence; otherwise set each optional field to `not supplied` and request the smallest missing input. A Kill Condition must state what result, threshold, or evidence gap stops the experiment. Guardrails must state the protected boundary, including that execution remains outside this skill.
 
 Do not elevate a hypothesis to an approved decision. Only the supplied Decision Log may establish an approved decision; otherwise set Decision Status to `hypothesis`, `validation proposed`, or `not supplied`, as applicable.
 

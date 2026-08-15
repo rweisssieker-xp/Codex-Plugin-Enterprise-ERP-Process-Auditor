@@ -1,6 +1,6 @@
 {
   "name": "erp-process-transformation-agent",
-  "version": "0.1.0+codex.20260815130219",
+  "version": "0.1.0+codex.20260815151000",
   "description": "Evidence-backed, vendor-neutral ERP transformation suite for process diagnostics, innovation opportunities, internal benchmarking, and decision-ready portfolios.",
   "author": {
     "name": "Local developer"
@@ -20,7 +20,8 @@
       "Run a rapid O2C diagnostic from our supplied process evidence; separate facts from hypotheses and identify the minimum validation evidence.",
       "Create an O2C deep dive with process friction, control, data, and standardization opportunities backed by the supplied evidence.",
       "Build a comparable internal benchmark across our entities using only the supplied evidence, cohort rules, coverage, and confidence.",
-      "Turn validated ERP findings and innovation opportunities into an initiative portfolio with owners, dependencies, risks, KPIs, and decision status."
+      "Turn validated ERP findings and innovation opportunities into an initiative portfolio with owners, dependencies, risks, KPIs, and decision status.",
+      "Map the evidence-backed blast radius of this proposed ERP process change and define an exit strategy with supplied dependencies, guardrails, owner, validation, and exit criterion."
     ]
   }
 }

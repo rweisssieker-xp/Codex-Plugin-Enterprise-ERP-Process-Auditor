@@ -19,7 +19,7 @@ Use the suite to assess O2C, P2P, R2R, M2M, warehouse and inventory, pricing, an
 
 ## Innovation Layer
 
-The Innovation Layer uses twelve lenses to turn validated process friction into testable opportunities. Every opportunity must record evidence IDs, assumptions, metric, owner, guardrails, kill condition, confidence, and next validation in the innovation opportunity register.
+The Innovation Layer uses twenty-two lenses to turn validated process friction into testable opportunities. Every opportunity must record evidence IDs, assumptions, metric, owner, guardrails, kill condition, confidence, and next validation in the innovation opportunity register. Blast Radius, Knowledge Concentration, Decision Latency, Reuse Potential, and Exit Criterion are optional fields: record them only when user-supplied evidence supports them, otherwise use `not supplied`.
 
 1. Transformation Evidence Graph
 2. No-Regret Transformation Engine
@@ -33,6 +33,16 @@ The Innovation Layer uses twelve lenses to turn validated process friction into 
 10. Counterfactual Transformation Twin
 11. Autonomy Ladder
 12. Executive Attention Allocation
+13. Transformation Decision Compiler
+14. Process Friction-to-Policy Mapper
+15. ERP Change Blast-Radius Map
+16. Standard Capability Proof Pack
+17. Operational Resilience Score
+18. Exception Half-Life Tracker
+19. ERP Knowledge Concentration Risk
+20. Transformation Reuse Index
+21. Decision Latency Cost Model
+22. Process Exit Strategy
 
 These are evaluation lenses, not claims about a client’s current state or promises of autonomous execution. Human owners approve material actions; guardrails and kill conditions define when to stop, reverse, or escalate.
 
@@ -49,6 +59,7 @@ Share only the minimum necessary business evidence. Remove or mask personal data
 3. “Set up a P2P evidence intake for these interviews, purchase-order reports, and supplier-master extracts, including provenance and data-quality gaps.”
 4. “Create a comparable internal benchmark for O2C across these entities using only the supplied evidence, cohort rules, coverage, and confidence.”
 5. “Turn these validated findings and innovation opportunities into an initiative portfolio with owners, dependencies, risks, KPIs, guardrails, and decision status.”
+6. “Map the evidence-backed blast radius of this proposed ERP process change and define an exit strategy, including supplied dependencies, guardrails, owner, validation, and exit criterion.”
 
 ## Install and test
 
