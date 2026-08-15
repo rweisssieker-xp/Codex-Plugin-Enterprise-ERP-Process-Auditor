@@ -63,10 +63,12 @@ EXECUTIVE_STATEMENT_HEADINGS = (
 
 EXECUTIVE_TEMPLATE = "executive-pack.md"
 IMPORT_TEMPLATE = "import-profile.md"
+FENCED_CODE_BLOCK_PATTERN = re.compile(r"^```.*?^```[ \t]*$", re.MULTILINE | re.DOTALL)
 
 
 def has_executive_statement_heading(content: str, heading: str) -> bool:
     """Return whether an executive statement label is a level 2 or 3 heading."""
+    content = FENCED_CODE_BLOCK_PATTERN.sub("", content)
     pattern = rf"^#{{2,3}}[ \t]+{re.escape(heading)}[ \t]*(?:#+[ \t]*)?$"
     return re.search(pattern, content, flags=re.MULTILINE) is not None
 
