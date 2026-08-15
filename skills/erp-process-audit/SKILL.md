@@ -103,30 +103,11 @@ For every finding, include:
 - Priority: high, medium, or low
 - Open validation and evidence required
 
-Treat FTE potential as a scenario, not a savings commitment. Show the calculation openly:
-
-`annual transactions × minutes per transaction × automatable share / 60 / productive annual hours per FTE`
-
-State assumptions, double-counting risks, and whether released capacity is realistically achievable, achievable with role/process change, or theoretical only.
+Delegate FTE, financial, cash, and other value scenarios to `erp-transformation-orchestrator`; they require its proof-of-value flow, transparent inputs, assumptions, coverage, confidence, and double-counting review.
 
 ## Output format
 
-Keep the rapid output to: a scoped diagnostic summary, an evidence-backed candidate findings table, and the minimum evidence requests to validate or reject any hypothesis. Use the complete-engagement output sequence only through `erp-transformation-orchestrator`.
-
-Start with an executive summary: process in scope, maturity view, three most important root causes, and decisions required.
-
-Then provide a findings table:
-
-| Priority | Process step | Finding | Category | Impact | Target state / standard approach | Effort | Evidence / validation |
-|---|---|---|---|---|---|---|---|
-
-Close with:
-
-1. **Target operating model:** a lean end-to-end process and governing principles, including standard before custom code, single maintenance of data, and embedded controls.
-2. **Roadmap:** 0–90 days, 3–9 months, and beyond 9 months, with dependencies and accountable functions.
-3. **FTE and value scenario:** only where transaction volumes and activity times support it.
-4. **Data and control risks:** ownership, prevention, and evidence.
-5. **Open questions:** only the most material evidence required to confirm or reject the hypotheses.
+Return only: (1) a scoped diagnostic summary, (2) an evidence-backed candidate findings table, (3) the minimum evidence requests to validate or reject each hypothesis, and (4) a brief next-step recommendation. Delegate the executive summary, target operating model, roadmap, FTE/value scenario, and data/control-risk pack to `erp-transformation-orchestrator`.
 
 ## O2C focus areas
 

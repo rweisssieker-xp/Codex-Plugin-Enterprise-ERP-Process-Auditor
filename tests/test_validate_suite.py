@@ -74,12 +74,33 @@ class ValidateSuiteTests(unittest.TestCase):
         )
 
     def test_playbook_lists_all_domains(self):
+        domains = (
+            "O2C",
+            "P2P",
+            "R2R",
+            "M2M",
+            "Warehouse and Inventory",
+            "Pricing",
+            "Master Data",
+        )
         with tempfile.TemporaryDirectory() as directory:
             plugin_root = Path(directory)
-            create_minimum_suite(plugin_root)
-            write_skill(plugin_root, "erp-process-playbooks", "## O2C\n## P2P")
-            errors = validate_plugin_root(plugin_root)
-        self.assertIn("erp-process-playbooks: missing domain R2R", errors)
+            for missing_domain in domains:
+                with self.subTest(missing_domain=missing_domain):
+                    create_minimum_suite(plugin_root)
+                    remaining_domains = (
+                        domain for domain in domains if domain != missing_domain
+                    )
+                    write_skill(
+                        plugin_root,
+                        "erp-process-playbooks",
+                        "\n".join(f"## {domain}" for domain in remaining_domains),
+                    )
+                    errors = validate_plugin_root(plugin_root)
+                    self.assertIn(
+                        f"erp-process-playbooks: missing domain {missing_domain}",
+                        errors,
+                    )
 
 
 if __name__ == "__main__":
