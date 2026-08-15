@@ -37,6 +37,22 @@ PLAYBOOK_DOMAINS = (
     "Master Data",
 )
 
+SCORECARD_RULES = {
+    "formula": "Formula",
+    "coverage": "Coverage",
+    "evidence-ID": "Evidence IDs",
+    "assumptions": "Assumptions",
+    "confidence": "Confidence",
+}
+
+INDUSTRY_PATTERNS = (
+    "Manufacturing",
+    "Distribution",
+    "Retail",
+    "Project Business",
+    "Regulated Operations",
+)
+
 
 def validate_plugin_root(plugin_root: Path) -> list[str]:
     """Return structural errors for a plugin root; an empty list is valid."""
@@ -53,6 +69,18 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
             for domain in PLAYBOOK_DOMAINS:
                 if f"## {domain}" not in content:
                     errors.append(f"{name}: missing domain {domain}")
+        if name == "erp-scoring-benchmarking":
+            content = skill_path.read_text(encoding="utf-8")
+            for rule, phrase in SCORECARD_RULES.items():
+                if phrase not in content:
+                    errors.append(f"{name}: missing {rule} rule")
+        if name == "erp-industry-variants":
+            content = skill_path.read_text(encoding="utf-8")
+            if "Industry pattern guidance, not client fact" not in content:
+                errors.append(f"{name}: missing industry guidance boundary")
+            for pattern in INDUSTRY_PATTERNS:
+                if f"## {pattern}" not in content:
+                    errors.append(f"{name}: missing industry pattern {pattern}")
         if required_phrases:
             content = skill_path.read_text(encoding="utf-8")
             if name == "erp-evidence-intake":

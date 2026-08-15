@@ -30,6 +30,18 @@ def create_minimum_suite(plugin_root: Path) -> None:
         "erp-process-playbooks",
         "## O2C\n## P2P\n## R2R\n## M2M\n## Warehouse and Inventory\n## Pricing\n## Master Data\n",
     )
+    write_skill(
+        plugin_root,
+        "erp-scoring-benchmarking",
+        "Formula; Coverage; Evidence IDs; Assumptions; Confidence\n",
+    )
+    write_skill(
+        plugin_root,
+        "erp-industry-variants",
+        "Industry pattern guidance, not client fact\n"
+        "## Manufacturing\n## Distribution\n## Retail\n"
+        "## Project Business\n## Regulated Operations\n",
+    )
 
 
 def write_skill(plugin_root: Path, name: str, content: str) -> None:
@@ -112,6 +124,34 @@ class ValidateSuiteTests(unittest.TestCase):
         self.assertIn("Delegate the executive summary", audit_skill)
         self.assertNotIn("shaping the executive narrative", audit_skill)
         self.assertNotIn("Start with an executive summary", audit_skill)
+
+    def test_scorecard_requires_formula_coverage_and_confidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_skill(
+                plugin_root,
+                "erp-scoring-benchmarking",
+                "## Scorecard\nMetric | Result\n",
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("erp-scoring-benchmarking: missing formula rule", errors)
+        self.assertIn("erp-scoring-benchmarking: missing coverage rule", errors)
+        self.assertIn("erp-scoring-benchmarking: missing evidence-ID rule", errors)
+        self.assertIn("erp-scoring-benchmarking: missing assumptions rule", errors)
+        self.assertIn("erp-scoring-benchmarking: missing confidence rule", errors)
+
+    def test_industry_skill_requires_all_bounded_patterns(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_skill(
+                plugin_root,
+                "erp-industry-variants",
+                "Industry pattern guidance, not client fact\n## Manufacturing\n",
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("erp-industry-variants: missing industry pattern Distribution", errors)
 
 
 if __name__ == "__main__":
