@@ -37,6 +37,16 @@ Link every material recommendation to finding IDs and Evidence IDs. If it depend
 
 ## Presentation rules
 
+## Initiative portfolio, value register, and offer package
+
+Consume the Finding Register, Scorecard, Decision Log, and approved baselines. Produce an Initiative Portfolio using `references/templates/initiative-portfolio.md`, a Value Register using `references/templates/value-register.md`, and one evidence-bounded offer-package recommendation using `references/templates/offer-packages.md`.
+
+For every high-priority initiative, record its source findings, owner function, dependencies, horizon, KPI, baseline, risk, rollback or mitigation, and decision status. Do not substitute an unvalidated hypothesis for a source finding. If an owner, baseline, or decision status is not supplied, record that gap and withhold any assertion that the initiative is approved or ready.
+
+Where applicable, calculate theoretical FTE capacity only as `annual transactions × minutes per transaction × automatable share / 60 / productive annual hours per FTE`. Record the inputs' Evidence IDs, assumptions, coverage, confidence, realization conditions, and a double-counting review before totaling FTE impact. Describe the result as theoretical capacity, not savings, FTE release, or a commitment. If initiatives overlap, inputs are incomplete, or the double-counting review is unresolved, withhold a total.
+
+Select offers only when the supplied evidence meets the relevant rule: Rapid Diagnostic for limited evidence, one process, and a decision required within 0–90 days; Process Deep Dive for sufficient evidence for root cause, controls, and quantified opportunities; Transformation Portfolio for multiple processes or entities with initiative and roadmap decisions; or Continuous Process Intelligence for recurring evidence refresh and approved recurring KPI review. Continuous Process Intelligence is a human-reviewed recurring service; make no unattended monitoring claim.
+
 - The heatmap is a narrative of supplied evidence and stated score coverage; it is not a claim of broad process performance. Do not fill unobserved process/entity cells with inferred risk.
 - The complexity balance sheet separates observed complexity burden, constraints, candidate simplifications, dependencies, and open evidence. Do not label customizations, controls, interfaces, or local variation unnecessary without evidence and accountable validation.
 - The target operating model is a proposed state. Record scope, owner, dependencies, assumptions, and validation gates; do not imply that it is approved or feasible.

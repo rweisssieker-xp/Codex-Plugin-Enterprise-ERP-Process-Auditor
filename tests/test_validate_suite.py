@@ -57,6 +57,29 @@ def create_minimum_suite(plugin_root: Path) -> None:
         "executive-pack.md",
         "## Facts\n## Stakeholder observations\n## Hypotheses\n## Recommendations\n",
     )
+    write_template(
+        plugin_root,
+        "initiative-portfolio.md",
+        "Initiative ID | Outcome | Source Findings | Owner Function | Dependencies | "
+        "Horizon | KPI | Baseline | Risk | Rollback or Mitigation | Decision Status\n",
+    )
+    write_template(
+        plugin_root,
+        "value-register.md",
+        "Formula: annual transactions × minutes per transaction × automatable share "
+        "/ 60 / productive annual hours per FTE\nAssumptions\nDouble-counting review\n",
+    )
+    write_template(
+        plugin_root,
+        "offer-packages.md",
+        "Rapid Diagnostic: limited evidence; one process; 0–90 days\n"
+        "Process Deep Dive: sufficient evidence; root cause; controls; "
+        "quantified opportunities\n"
+        "Transformation Portfolio: multiple processes or entities; initiative; "
+        "roadmap decisions\n"
+        "Continuous Process Intelligence: recurring evidence refresh; approved "
+        "recurring KPI review; no unattended monitoring claim\n",
+    )
 
 
 def write_skill(plugin_root: Path, name: str, content: str) -> None:
@@ -294,6 +317,39 @@ class ValidateSuiteTests(unittest.TestCase):
                 "### Hypotheses\n### Recommendations\n",
             )
             self.assertEqual(validate_plugin_root(plugin_root), [])
+
+    def test_initiative_requires_owner_dependency_kpi_and_rollback(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(plugin_root, "initiative-portfolio.md", "Initiative ID | Outcome")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("initiative template: missing owner function", errors)
+        self.assertIn("initiative template: missing dependencies", errors)
+        self.assertIn("initiative template: missing KPI", errors)
+        self.assertIn("initiative template: missing rollback or mitigation", errors)
+
+    def test_value_register_requires_formula_assumption_and_double_counting_review(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(plugin_root, "value-register.md", "Value ID | Initiative ID")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("value register: missing FTE capacity formula", errors)
+        self.assertIn("value register: missing assumptions rule", errors)
+        self.assertIn("value register: missing double-counting review rule", errors)
+
+    def test_offer_packages_require_selection_rules_and_monitoring_boundary(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(plugin_root, "offer-packages.md", "# Offer packages\n")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("offer packages: missing Rapid Diagnostic selection rule", errors)
+        self.assertIn(
+            "offer packages: missing Continuous Process Intelligence selection rule",
+            errors,
+        )
 
 
 if __name__ == "__main__":

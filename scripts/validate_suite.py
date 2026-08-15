@@ -63,6 +63,42 @@ EXECUTIVE_STATEMENT_HEADINGS = (
 
 EXECUTIVE_TEMPLATE = "executive-pack.md"
 IMPORT_TEMPLATE = "import-profile.md"
+INITIATIVE_TEMPLATE = "initiative-portfolio.md"
+VALUE_TEMPLATE = "value-register.md"
+OFFER_PACKAGES_TEMPLATE = "offer-packages.md"
+INITIATIVE_REQUIRED_COLUMNS = {
+    "owner function": "owner function",
+    "dependencies": "dependencies",
+    "horizon": "horizon",
+    "KPI": "kpi",
+    "baseline": "baseline",
+    "risk": "risk",
+    "rollback or mitigation": "rollback or mitigation",
+    "decision status": "decision status",
+}
+VALUE_FTE_FORMULA = (
+    "annual transactions × minutes per transaction × automatable share / 60 / "
+    "productive annual hours per FTE"
+)
+OFFER_SELECTION_RULES = {
+    "Rapid Diagnostic": ("limited evidence", "one process", "0–90 days"),
+    "Process Deep Dive": (
+        "sufficient evidence",
+        "root cause",
+        "controls",
+        "quantified opportunities",
+    ),
+    "Transformation Portfolio": (
+        "multiple processes or entities",
+        "initiative",
+        "roadmap decisions",
+    ),
+    "Continuous Process Intelligence": (
+        "recurring evidence refresh",
+        "approved recurring KPI review",
+        "no unattended monitoring claim",
+    ),
+}
 FENCE_OPENING_PATTERN = re.compile(r"^[ \t]{0,3}(`{3,}|~{3,})[^\r\n]*$")
 
 
@@ -169,6 +205,38 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
         for heading in EXECUTIVE_STATEMENT_HEADINGS:
             if not has_executive_statement_heading(executive_pack, heading):
                 errors.append(f"{EXECUTIVE_TEMPLATE}: missing heading {heading}")
+
+    initiative_path = plugin_root / "references" / "templates" / INITIATIVE_TEMPLATE
+    if not initiative_path.is_file():
+        errors.append(f"missing template: {INITIATIVE_TEMPLATE}")
+    else:
+        initiative = initiative_path.read_text(encoding="utf-8").lower()
+        for error_label, required_column in INITIATIVE_REQUIRED_COLUMNS.items():
+            if required_column not in initiative:
+                errors.append(f"initiative template: missing {error_label}")
+
+    value_path = plugin_root / "references" / "templates" / VALUE_TEMPLATE
+    if not value_path.is_file():
+        errors.append(f"missing template: {VALUE_TEMPLATE}")
+    else:
+        value_register = value_path.read_text(encoding="utf-8").lower()
+        if VALUE_FTE_FORMULA.lower() not in value_register:
+            errors.append("value register: missing FTE capacity formula")
+        if "assumption" not in value_register:
+            errors.append("value register: missing assumptions rule")
+        if "double-counting" not in value_register:
+            errors.append("value register: missing double-counting review rule")
+
+    offer_packages_path = plugin_root / "references" / "templates" / OFFER_PACKAGES_TEMPLATE
+    if not offer_packages_path.is_file():
+        errors.append(f"missing template: {OFFER_PACKAGES_TEMPLATE}")
+    else:
+        offer_packages = offer_packages_path.read_text(encoding="utf-8").lower()
+        for package, phrases in OFFER_SELECTION_RULES.items():
+            if package.lower() not in offer_packages or not all(
+                phrase.lower() in offer_packages for phrase in phrases
+            ):
+                errors.append(f"offer packages: missing {package} selection rule")
     return errors
 
 
