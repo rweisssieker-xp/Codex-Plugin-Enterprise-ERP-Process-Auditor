@@ -55,6 +55,18 @@ EXPANSION_REGISTER_FIELDS = (
     "Reuse Potential",
     "Exit Criterion",
 )
+README_EXPANSION_LENSES = (
+    "Transformation Decision Compiler",
+    "Process Friction-to-Policy Mapper",
+    "ERP Change Blast-Radius Map",
+    "Standard Capability Proof Pack",
+    "Operational Resilience Score",
+    "Exception Half-Life Tracker",
+    "ERP Knowledge Concentration Risk",
+    "Transformation Reuse Index",
+    "Decision Latency Cost Model",
+    "Process Exit Strategy",
+)
 EXPECTED_INNOVATION_REGISTER_HEADER = (
     "Opportunity ID | Innovation Lens | Target Audience | Workflow Replaced | "
     "Differentiator | Evidence IDs | Assumptions | Metric | Kill Condition | "
@@ -153,7 +165,8 @@ def write_manifest(plugin_root: Path, manifest: dict | None = None) -> None:
         "skills": "./skills/",
         "interface": {
             "defaultPrompt": [
-                "Identify evidence-backed innovation opportunities in our ERP process evidence."
+                "Identify evidence-backed innovation opportunities in our ERP process "
+                "evidence, including a blast radius and exit strategy."
             ]
         },
     }
@@ -164,7 +177,10 @@ def write_manifest(plugin_root: Path, manifest: dict | None = None) -> None:
     manifest_path.write_text(json.dumps(content), encoding="utf-8")
 
 
-def write_readme(plugin_root: Path, content: str = "# Plugin\n\n## Innovation Layer\n") -> None:
+def write_readme(
+    plugin_root: Path,
+    content: str = "# Plugin\n\n## Innovation Layer\n" + "\n".join(README_EXPANSION_LENSES),
+) -> None:
     (plugin_root / "README.md").write_text(content, encoding="utf-8")
 
 
@@ -219,6 +235,45 @@ class ValidateSuiteTests(unittest.TestCase):
             )
             errors = validate_plugin_root(plugin_root)
         self.assertIn("manifest: missing innovation starter prompt", errors)
+
+    def test_readme_requires_each_expansion_lens(self):
+        for missing_lens in README_EXPANSION_LENSES:
+            with self.subTest(missing_lens=missing_lens):
+                with tempfile.TemporaryDirectory() as directory:
+                    plugin_root = Path(directory)
+                    create_minimum_suite(plugin_root)
+                    write_readme(
+                        plugin_root,
+                        "# Plugin\n\n## Innovation Layer\n"
+                        + "\n".join(
+                            lens
+                            for lens in README_EXPANSION_LENSES
+                            if lens != missing_lens
+                        ),
+                    )
+                    errors = validate_plugin_root(plugin_root)
+                self.assertIn(f"README: missing innovation lens {missing_lens}", errors)
+
+    def test_manifest_requires_blast_radius_and_exit_strategy_starter_prompt(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_manifest(
+                plugin_root,
+                {
+                    "name": "erp-process-transformation-agent",
+                    "skills": "./skills/",
+                    "interface": {
+                        "defaultPrompt": [
+                            "Identify evidence-backed innovation opportunities from our ERP process evidence."
+                        ]
+                    },
+                },
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn(
+            "manifest: missing blast-radius and exit-strategy starter prompt", errors
+        )
 
     def test_evidence_skill_requires_statement_types(self):
         with tempfile.TemporaryDirectory() as directory:
