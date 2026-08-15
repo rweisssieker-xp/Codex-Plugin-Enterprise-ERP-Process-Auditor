@@ -8,6 +8,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from validate_suite import (
+    INNOVATION_LENSES,
+    INNOVATION_REGISTER_HEADER,
+    INNOVATION_REQUIRED_FIELDS,
     REQUIRED_SKILLS,
     has_executive_statement_heading,
     validate_plugin_root,
@@ -52,6 +55,11 @@ def create_minimum_suite(plugin_root: Path) -> None:
         "erp-executive-transformation",
         "Facts; Stakeholder observations; Hypotheses; Recommendations\n",
     )
+    write_skill(
+        plugin_root,
+        "erp-transformation-innovation",
+        "\n".join((*INNOVATION_LENSES, *INNOVATION_REQUIRED_FIELDS)),
+    )
     write_template(plugin_root, "import-profile.md", "grain | business key\n")
     write_template(
         plugin_root,
@@ -81,6 +89,7 @@ def create_minimum_suite(plugin_root: Path) -> None:
         "Continuous Process Intelligence: recurring evidence refresh; approved "
         "recurring KPI review; no unattended monitoring claim\n",
     )
+    write_template(plugin_root, "innovation-opportunity-register.md", INNOVATION_REGISTER_HEADER)
     write_manifest(plugin_root)
 
 
@@ -372,6 +381,30 @@ class ValidateSuiteTests(unittest.TestCase):
             "offer packages: missing Continuous Process Intelligence selection rule",
             errors,
         )
+
+    def test_innovation_layer_requires_all_lenses_and_safety_fields(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_skill(plugin_root, "erp-transformation-innovation", "# Innovation Layer\n")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn(
+            "erp-transformation-innovation: missing lens Transformation Evidence Graph",
+            errors,
+        )
+        self.assertIn("erp-transformation-innovation: missing Metric", errors)
+        self.assertIn("erp-transformation-innovation: missing Kill Condition", errors)
+        self.assertIn("erp-transformation-innovation: missing Owner", errors)
+        self.assertIn("erp-transformation-innovation: missing Guardrails", errors)
+        self.assertIn("erp-transformation-innovation: missing Next Validation", errors)
+
+    def test_innovation_register_requires_exact_header(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(plugin_root, "innovation-opportunity-register.md", "Opportunity ID | Metric\n")
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("innovation register: missing exact header", errors)
 
 
 if __name__ == "__main__":

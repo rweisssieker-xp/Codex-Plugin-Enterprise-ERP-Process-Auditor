@@ -16,6 +16,7 @@ REQUIRED_SKILLS = {
     "erp-executive-transformation",
     "erp-governance-traceability",
     "erp-industry-variants",
+    "erp-transformation-innovation",
 }
 
 REQUIRED_PHRASES = {
@@ -67,6 +68,33 @@ IMPORT_TEMPLATE = "import-profile.md"
 INITIATIVE_TEMPLATE = "initiative-portfolio.md"
 VALUE_TEMPLATE = "value-register.md"
 OFFER_PACKAGES_TEMPLATE = "offer-packages.md"
+INNOVATION_TEMPLATE = "innovation-opportunity-register.md"
+INNOVATION_LENSES = (
+    "Transformation Evidence Graph",
+    "No-Regret Transformation Engine",
+    "Cross-ERP Process Semantic Layer",
+    "Process Variant Genome",
+    "Decision Decay Monitor",
+    "Transformation Memory",
+    "Change-Fatigue Forecast",
+    "Policy-to-Control Compiler",
+    "Value Leakage Escrow",
+    "Counterfactual Transformation Twin",
+    "Autonomy Ladder",
+    "Executive Attention Allocation",
+)
+INNOVATION_REQUIRED_FIELDS = (
+    "Metric",
+    "Kill Condition",
+    "Owner",
+    "Guardrails",
+    "Next Validation",
+)
+INNOVATION_REGISTER_HEADER = (
+    "Opportunity ID | Innovation Lens | Target Audience | Workflow Replaced | "
+    "Differentiator | Evidence IDs | Assumptions | Metric | Kill Condition | "
+    "Owner | Guardrails | Confidence | Next Validation | Decision Status"
+)
 MANIFEST_PATH = ".codex-plugin/plugin.json"
 INITIATIVE_REQUIRED_COLUMNS = {
     "owner function": "owner function",
@@ -187,6 +215,14 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
             content = skill_path.read_text(encoding="utf-8")
             if not all(heading in content for heading in EXECUTIVE_STATEMENT_HEADINGS):
                 errors.append(f"{name}: missing fact/hypothesis separation")
+        if name == "erp-transformation-innovation":
+            content = skill_path.read_text(encoding="utf-8")
+            for lens in INNOVATION_LENSES:
+                if lens not in content:
+                    errors.append(f"{name}: missing lens {lens}")
+            for field in INNOVATION_REQUIRED_FIELDS:
+                if field not in content:
+                    errors.append(f"{name}: missing {field}")
         if required_phrases:
             content = skill_path.read_text(encoding="utf-8")
             if name == "erp-evidence-intake":
@@ -255,6 +291,14 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
                 phrase.lower() in offer_packages for phrase in phrases
             ):
                 errors.append(f"offer packages: missing {package} selection rule")
+
+    innovation_path = plugin_root / "references" / "templates" / INNOVATION_TEMPLATE
+    if not innovation_path.is_file():
+        errors.append(f"missing template: {INNOVATION_TEMPLATE}")
+    else:
+        innovation_register = innovation_path.read_text(encoding="utf-8")
+        if INNOVATION_REGISTER_HEADER not in innovation_register:
+            errors.append("innovation register: missing exact header")
     return errors
 
 
