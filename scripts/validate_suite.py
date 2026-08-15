@@ -75,6 +75,7 @@ def has_executive_statement_heading(content: str, heading: str) -> bool:
 
 def without_fenced_code_blocks(content: str) -> str:
     """Remove Markdown fenced blocks, respecting marker type and opening length."""
+    content = content.replace("\r\n", "\n").replace("\r", "\n")
     retained_lines = []
     marker_character = None
     marker_length = 0

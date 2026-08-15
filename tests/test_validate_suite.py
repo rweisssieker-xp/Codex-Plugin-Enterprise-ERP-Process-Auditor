@@ -6,7 +6,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from validate_suite import REQUIRED_SKILLS, validate_plugin_root
+from validate_suite import (
+    REQUIRED_SKILLS,
+    has_executive_statement_heading,
+    validate_plugin_root,
+)
 
 
 def create_minimum_suite(plugin_root: Path) -> None:
@@ -241,6 +245,40 @@ class ValidateSuiteTests(unittest.TestCase):
                 "executive-pack.md",
                 "````markdown\n## Facts\n## Stakeholder observations\n"
                 "## Hypotheses\n## Recommendations\n````\n",
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("executive-pack.md: missing heading Facts", errors)
+
+    def test_executive_pack_rejects_crlf_tilde_fence_as_headings(self):
+        content = (
+            "~~~~markdown\r\n## Facts\n## Stakeholder observations\n"
+            "## Hypotheses\n## Recommendations\n~~~~\n"
+        )
+        self.assertFalse(has_executive_statement_heading(content, "Facts"))
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(
+                plugin_root,
+                "executive-pack.md",
+                content,
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("executive-pack.md: missing heading Facts", errors)
+
+    def test_executive_pack_rejects_crlf_four_backtick_fence_as_headings(self):
+        content = (
+            "````markdown\r\n## Facts\n## Stakeholder observations\n"
+            "## Hypotheses\n## Recommendations\n````\n"
+        )
+        self.assertFalse(has_executive_statement_heading(content, "Facts"))
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(
+                plugin_root,
+                "executive-pack.md",
+                content,
             )
             errors = validate_plugin_root(plugin_root)
         self.assertIn("executive-pack.md: missing heading Facts", errors)

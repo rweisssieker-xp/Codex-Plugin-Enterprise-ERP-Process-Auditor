@@ -34,3 +34,9 @@
 - The scanner tracks the opening marker length and closes only on the same marker with at least that many characters.
 - Added regression tests for `~~~~` and ```` ```` fenced examples containing all required labels.
 - Verification: `python -m unittest tests/test_validate_suite.py -v` — 15 tests passed; `python scripts/validate_suite.py .` — passed; `git diff --check` — passed.
+
+## Round 3 CRLF correction
+
+- Normalized CRLF and lone-CR line endings before fenced-code scanning, so fence recognition is independent of source newline style.
+- Added direct regression coverage for CRLF opening lines with both `~~~~` and four-backtick fences; the candidate headings remain LF-delimited to isolate fence recognition.
+- Verification: `python -m unittest tests/test_validate_suite.py -v` — 17 tests passed; `python scripts/validate_suite.py .` — passed; `git diff --check` — passed.
