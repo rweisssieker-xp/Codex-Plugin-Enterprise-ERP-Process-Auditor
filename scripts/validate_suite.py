@@ -63,14 +63,42 @@ EXECUTIVE_STATEMENT_HEADINGS = (
 
 EXECUTIVE_TEMPLATE = "executive-pack.md"
 IMPORT_TEMPLATE = "import-profile.md"
-FENCED_CODE_BLOCK_PATTERN = re.compile(r"^```.*?^```[ \t]*$", re.MULTILINE | re.DOTALL)
+FENCE_OPENING_PATTERN = re.compile(r"^[ \t]{0,3}(`{3,}|~{3,})[^\r\n]*$")
 
 
 def has_executive_statement_heading(content: str, heading: str) -> bool:
     """Return whether an executive statement label is a level 2 or 3 heading."""
-    content = FENCED_CODE_BLOCK_PATTERN.sub("", content)
+    content = without_fenced_code_blocks(content)
     pattern = rf"^#{{2,3}}[ \t]+{re.escape(heading)}[ \t]*(?:#+[ \t]*)?$"
     return re.search(pattern, content, flags=re.MULTILINE) is not None
+
+
+def without_fenced_code_blocks(content: str) -> str:
+    """Remove Markdown fenced blocks, respecting marker type and opening length."""
+    retained_lines = []
+    marker_character = None
+    marker_length = 0
+
+    for line in content.splitlines(keepends=True):
+        if marker_character is None:
+            opening_match = FENCE_OPENING_PATTERN.match(line)
+            if opening_match:
+                marker = opening_match.group(1)
+                marker_character = marker[0]
+                marker_length = len(marker)
+            else:
+                retained_lines.append(line)
+            continue
+
+        closing_pattern = (
+            rf"^[ \t]{{0,3}}{re.escape(marker_character)}{{{marker_length},}}[ \t]*"
+            rf"(?:\r?\n)?$"
+        )
+        if re.match(closing_pattern, line):
+            marker_character = None
+            marker_length = 0
+
+    return "".join(retained_lines)
 
 
 def validate_plugin_root(plugin_root: Path) -> list[str]:

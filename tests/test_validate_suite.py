@@ -219,6 +219,32 @@ class ValidateSuiteTests(unittest.TestCase):
         self.assertIn("executive-pack.md: missing heading Hypotheses", errors)
         self.assertIn("executive-pack.md: missing heading Recommendations", errors)
 
+    def test_executive_pack_rejects_tilde_fence_as_headings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(
+                plugin_root,
+                "executive-pack.md",
+                "~~~~markdown\n## Facts\n## Stakeholder observations\n"
+                "## Hypotheses\n## Recommendations\n~~~~\n",
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("executive-pack.md: missing heading Facts", errors)
+
+    def test_executive_pack_rejects_four_backtick_fence_as_headings(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_template(
+                plugin_root,
+                "executive-pack.md",
+                "````markdown\n## Facts\n## Stakeholder observations\n"
+                "## Hypotheses\n## Recommendations\n````\n",
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("executive-pack.md: missing heading Facts", errors)
+
     def test_executive_pack_accepts_level_three_statement_headings(self):
         with tempfile.TemporaryDirectory() as directory:
             plugin_root = Path(directory)

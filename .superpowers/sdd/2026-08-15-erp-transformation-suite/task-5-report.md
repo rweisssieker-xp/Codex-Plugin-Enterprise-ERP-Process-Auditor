@@ -27,3 +27,10 @@
 - Added a negative test proving prose and inline code containing the required heading text do not satisfy the heading contract, plus a positive level-3-heading test.
 - Verification: `python -m unittest tests/test_validate_suite.py -v` — 13 tests passed; `python scripts/validate_suite.py .` — passed; `git diff --check` — passed.
 - The negative coverage includes both inline and fenced Markdown code; fenced blocks are excluded before heading matching.
+
+## Round 2 fence correction
+
+- Replaced the fixed triple-backtick handling with a fence-aware scanner for backtick and tilde fences.
+- The scanner tracks the opening marker length and closes only on the same marker with at least that many characters.
+- Added regression tests for `~~~~` and ```` ```` fenced examples containing all required labels.
+- Verification: `python -m unittest tests/test_validate_suite.py -v` — 15 tests passed; `python scripts/validate_suite.py .` — passed; `git diff --check` — passed.
