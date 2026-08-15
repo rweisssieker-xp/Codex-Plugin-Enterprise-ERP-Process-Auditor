@@ -17,7 +17,8 @@ def create_minimum_suite(plugin_root: Path) -> None:
     write_skill(
         plugin_root,
         "erp-evidence-intake",
-        "stakeholder observation; calculation assumption; hypothesis\n",
+        "stakeholder observation; calculation assumption; hypothesis; "
+        "Hypothesis / Gap Register; not an Evidence ID\n",
     )
     write_skill(
         plugin_root,
@@ -51,6 +52,21 @@ class ValidateSuiteTests(unittest.TestCase):
             write_skill(plugin_root, "erp-evidence-intake", "# Evidence Intake\n")
             errors = validate_plugin_root(plugin_root)
         self.assertIn("erp-evidence-intake: missing statement-type rule", errors)
+
+    def test_evidence_skill_requires_gap_traceability_for_unsupported_hypotheses(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            write_skill(
+                plugin_root,
+                "erp-evidence-intake",
+                "stakeholder observation; calculation assumption; hypothesis\n",
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn(
+            "erp-evidence-intake: missing unsupported-hypothesis traceability rule",
+            errors,
+        )
 
 
 if __name__ == "__main__":

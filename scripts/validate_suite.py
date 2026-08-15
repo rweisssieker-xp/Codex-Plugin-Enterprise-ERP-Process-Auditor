@@ -17,7 +17,13 @@ REQUIRED_SKILLS = {
 }
 
 REQUIRED_PHRASES = {
-    "erp-evidence-intake": ["stakeholder observation", "calculation assumption", "hypothesis"],
+    "erp-evidence-intake": [
+        "stakeholder observation",
+        "calculation assumption",
+        "hypothesis",
+        "Hypothesis / Gap Register",
+        "not an Evidence ID",
+    ],
     "erp-governance-traceability": ["Validation Owner", "reversal condition"],
 }
 
@@ -34,11 +40,21 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
         required_phrases = REQUIRED_PHRASES.get(name, [])
         if required_phrases:
             content = skill_path.read_text(encoding="utf-8")
-            if not all(phrase in content for phrase in required_phrases):
-                if name == "erp-evidence-intake":
+            if name == "erp-evidence-intake":
+                statement_type_phrases = [
+                    "stakeholder observation",
+                    "calculation assumption",
+                    "hypothesis",
+                ]
+                traceability_phrases = ["Hypothesis / Gap Register", "not an Evidence ID"]
+                if not all(phrase in content for phrase in statement_type_phrases):
                     errors.append(f"{name}: missing statement-type rule")
-                else:
-                    errors.append(f"{name}: missing governance traceability rule")
+                if not all(phrase in content for phrase in traceability_phrases):
+                    errors.append(
+                        f"{name}: missing unsupported-hypothesis traceability rule"
+                    )
+            elif not all(phrase in content for phrase in required_phrases):
+                errors.append(f"{name}: missing governance traceability rule")
     return errors
 
 

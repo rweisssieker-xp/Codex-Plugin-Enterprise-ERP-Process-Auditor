@@ -20,9 +20,9 @@ Use this skill before diagnostic, scoring, benchmarking, or executive-output wor
 - **fact** — directly supported by accessible, user-supplied evidence; cite its Evidence ID.
 - **stakeholder observation** — an attributed statement from a person; do not elevate it to fact until independently supported.
 - **calculation assumption** — an input chosen for a transparent calculation; state its source or why it is provisional.
-- **hypothesis** — a candidate explanation or outcome that requires validation; do not phrase it as a conclusion.
+- **hypothesis** — a candidate explanation or outcome that requires validation; do not phrase it as a conclusion. When it has no source evidence, assign a Hypothesis ID and record it in the Hypothesis / Gap Register with at least one Gap ID; it is explicitly not an Evidence ID.
 
-Every material statement must have one statement type and an Evidence ID. If no evidence exists, use a hypothesis with an Evidence Gap Register request instead of supplying a likely answer.
+Every material statement must have one statement type. A fact, stakeholder observation, or source-backed calculation assumption must cite an Evidence ID. An evidence-free hypothesis must cite a Hypothesis ID and Gap ID in the Hypothesis / Gap Register, explicitly not an Evidence ID. Do not enter an unsupported hypothesis in the Evidence Register or assign it a source-backed status.
 
 ## File and data handling
 
@@ -47,6 +47,14 @@ Produce these tables using the shared columns exactly.
 | Gap ID | Needed Evidence | Decision Blocked | Owner | Priority | Requested By |
 |---|---|---|---|---|---|
 | G-001 | [specific evidence or conversion request] | [decision or conclusion limited] | [named role/person if known] | [high/medium/low] | [requesting role] |
+
+### Hypothesis / Gap Register
+
+Use this record only for an evidence-free hypothesis. Each hypothesis requires at least one Gap ID that identifies the missing evidence needed to validate or reject it. A Hypothesis ID is explicitly not an Evidence ID and does not support a fact, calculation, recommendation, or decision until validation creates a source-backed Evidence Register entry.
+
+| Hypothesis ID | Hypothesis Statement | Gap IDs | Validation Needed | Owner | Status |
+|---|---|---|---|---|---|
+| H-001 | [unconfirmed candidate explanation] | G-001 | [specific evidence/test required] | [validation owner] | open / validated / rejected |
 
 ## Recommendation gate
 

@@ -16,7 +16,7 @@ Use this skill after evidence intake and before presenting decision-grade findin
 
 ## Traceability rules
 
-1. For every material finding, calculation, recommendation, or decision, capture Evidence IDs, statement type, confidence, scope/period, owner, validation status, and change rationale.
+1. For every material finding, calculation, recommendation, or decision, capture Evidence IDs, statement type, confidence, scope/period, owner, validation status, and change rationale. An evidence-free hypothesis instead cites its Hypothesis ID and Gap ID from the Hypothesis / Gap Register; it is not evidence and cannot support a decision until validated.
 2. Keep facts, stakeholder observations, calculation assumptions, and hypotheses distinct. A stakeholder observation or hypothesis does not become a fact merely because it supports a preferred outcome.
 3. When sources conflict, retain all conflicting Evidence IDs, describe the precise conflict without choosing a winner, lower confidence as appropriate, and create an Evidence Gap Register request for accountable resolution.
 4. Do not issue a decision-grade conclusion when evidence gaps or conflicts materially affect it; mark it provisional and state what validation is required.
