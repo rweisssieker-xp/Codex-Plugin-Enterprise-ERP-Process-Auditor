@@ -1,57 +1,78 @@
 # ERP Process Transformation Suite
 
-An evidence-backed, vendor-neutral suite for assessing ERP process transformation. It helps CIO and COO teams turn supplied operating evidence into traceable findings, internal comparisons, initiative options, and proof-of-value reviews. It supports SAP, Microsoft Dynamics 365, Oracle, NetSuite, Infor, AX, and Business Central as context; no product is treated as the target operating model.
+An evidence-backed, vendor-neutral ERP transformation suite for CIO and COO teams. It turns supplied operating evidence into traceable process findings, bounded innovation opportunities, comparable internal benchmarks, and decision-ready portfolios. SAP, Microsoft Dynamics 365, Oracle, NetSuite, Infor, AX, and Business Central are supported as context; none is prescribed as the target operating model.
 
-## What the suite does
+## Product positioning
 
-- Takes in and classifies process evidence, assumptions, stakeholder observations, and hypotheses.
-- Maps O2C, P2P, R2R, M2M, warehouse and inventory, pricing, and master-data workflows.
-- Identifies standardization, configuration, control, data, integration, and shadow-process opportunities.
-- Produces transparent scorecards, comparable **internal** benchmarks, an initiative portfolio, executive materials, and proof-of-value scenarios.
+Use the suite to assess O2C, P2P, R2R, M2M, warehouse and inventory, pricing, and master-data workflows. It distinguishes facts, stakeholder observations, hypotheses, and calculation assumptions, then carries evidence, ownership, and reversal conditions through to a decision. It does not invent client facts, promise savings, make legal, tax, audit, or compliance assurances, provide external market benchmarks, or perform unattended monitoring.
 
-## What it does not do
+## Architecture and module overview
 
-The suite does not invent client facts, promise savings, make legal/tax/audit/compliance assurances, provide an external market benchmark, or perform unattended monitoring. It distinguishes evidence-backed facts from stakeholder observations, hypotheses, and calculations. A named human owner must validate material recommendations and decisions.
-
-## Module sequence
-
-1. `erp-evidence-intake` establishes scope, provenance, evidence quality, and gaps.
-2. `erp-governance-traceability` records decisions, validation ownership, and reversal conditions.
+1. `erp-evidence-intake` establishes evidence scope, provenance, quality, and gaps.
+2. `erp-governance-traceability` records decisions, validation owners, and reversal conditions.
 3. `erp-process-playbooks` reconstructs the selected process domain.
-4. `erp-scoring-benchmarking` creates evidence-backed scorecards and comparable internal cohorts.
+4. `erp-scoring-benchmarking` produces evidence-backed scorecards and internal cohorts.
 5. `erp-industry-variants` applies bounded industry-pattern guidance.
 6. `erp-executive-transformation` assembles decision-ready outputs and value scenarios.
-7. `erp-transformation-orchestrator` runs the complete engagement; `erp-process-audit` is the bounded rapid-diagnostic entry point.
+7. `erp-transformation-innovation` identifies and governs evidence-backed innovation opportunities.
+8. `erp-transformation-orchestrator` runs the engagement; `erp-process-audit` is the bounded rapid-diagnostic entry point.
 
-## Accepted evidence
+## Innovation Layer
 
-Use supplied SOPs, process maps, screenshots, ERP reports and exports, spreadsheets, ticket data, interface inventories, role designs, sample transactions, interview notes, and approved KPI extracts. Capture the source, date, owner, scope, grain, business key, and limitations for every material item. Treat interview claims as stakeholder observations until corroborated.
+The Innovation Layer uses twelve lenses to turn validated process friction into testable opportunities. Every opportunity must record evidence IDs, assumptions, metric, owner, guardrails, kill condition, confidence, and next validation in the innovation opportunity register.
 
-## Artifact catalogue
+1. Transformation Evidence Graph
+2. No-Regret Transformation Engine
+3. Cross-ERP Process Semantic Layer
+4. Process Variant Genome
+5. Decision Decay Monitor
+6. Transformation Memory
+7. Change-Fatigue Forecast
+8. Policy-to-Control Compiler
+9. Value Leakage Escrow
+10. Counterfactual Transformation Twin
+11. Autonomy Ladder
+12. Executive Attention Allocation
 
-The templates in `references/templates/` provide an evidence register, finding register, process map, scorecard, benchmark comparison, complexity balance sheet, initiative portfolio, value register, executive pack, offer packages, import profile, and decision log.
+These are evaluation lenses, not claims about a client’s current state or promises of autonomous execution. Human owners approve material actions; guardrails and kill conditions define when to stop, reverse, or escalate.
 
-## Data and privacy limits
+## Inputs and evidence boundaries
 
-Share only the minimum necessary business evidence. Remove or mask personal data, credentials, payment information, secrets, and unnecessary customer or employee identifiers before use. Keep outputs within the approved workspace and follow the organisation's retention, access-control, and data-residency requirements. Escalate security, privacy, legal, tax, and compliance questions to the appropriate human specialists.
+Use supplied SOPs, process maps, screenshots, ERP reports and exports, spreadsheets, ticket data, interface inventories, role designs, sample transactions, interview notes, and approved KPI extracts. For every material item, capture source, date, owner, scope, grain, business key, and limitations. Treat interview claims as stakeholder observations until corroborated.
 
-## Validation and release
+Share only the minimum necessary business evidence. Remove or mask personal data, credentials, payment information, secrets, and unnecessary customer or employee identifiers. Keep outputs in the approved workspace and follow the organisation’s retention, access-control, and data-residency requirements. Escalate security, privacy, legal, tax, and compliance questions to human specialists.
 
-Run from the plugin root:
+## Starter prompts
+
+1. “Identify evidence-backed innovation opportunities from these O2C SOPs and invoice-rework examples; state the lens, metric, guardrails, owner, kill condition, and next validation.”
+2. “Run a rapid O2C diagnostic using these SOPs and invoice-rework examples; separate facts from hypotheses and list the minimum missing evidence.”
+3. “Set up a P2P evidence intake for these interviews, purchase-order reports, and supplier-master extracts, including provenance and data-quality gaps.”
+4. “Create a comparable internal benchmark for O2C across these entities using only the supplied evidence, cohort rules, coverage, and confidence.”
+5. “Turn these validated findings and innovation opportunities into an initiative portfolio with owners, dependencies, risks, KPIs, guardrails, and decision status.”
+
+## Install and test
+
+Install the plugin from this repository into a Codex plugin directory, then start a new task and use a starter prompt with approved, minimised evidence. From the plugin root, run:
 
 ```powershell
 python -m unittest tests/test_validate_suite.py -v
 python scripts/validate_suite.py .
 python C:\Users\reinerw\.codex\skills\.system\plugin-creator\scripts\validate_plugin.py C:\Users\reinerw\plugins\erp-process-transformation-agent
-python C:\Users\reinerw\.codex\skills\.system\plugin-creator\scripts\update_plugin_cachebuster.py C:\Users\reinerw\plugins\erp-process-transformation-agent
 ```
 
-Before release, smoke-test the starter prompts below in a new task and record any failures in `references/templates/decision-log.md`.
+Before release, smoke-test the five prompts in a new task and record failures in `references/templates/decision-log.md`.
 
-## Starter prompts
+## GitHub project structure
 
-1. “Run a rapid O2C diagnostic using these SOPs and invoice-rework examples; separate facts from hypotheses and list the minimum missing evidence.”
-2. “Set up a P2P evidence intake for these interviews, purchase-order reports, and supplier-master extracts, including provenance and data-quality gaps.”
-3. “Assess this R2R material for insufficient evidence. Do not score it; explain the evidence gaps, validation owners, and reversal conditions.”
-4. “Create a comparable internal benchmark for O2C across these entities using only the supplied evidence, cohort rules, coverage, and confidence.”
-5. “Build an O2C initiative and value scenario from these findings, stating assumptions, dependencies, double-counting checks, risks, and decisions required.”
+```text
+.codex-plugin/plugin.json     Plugin metadata and discoverable prompts
+skills/                       Operating instructions for each module
+references/templates/         Evidence, decision, portfolio, and innovation artifacts
+scripts/validate_suite.py     Structural release validator
+tests/                        Validator regression tests
+docs/                         Product and delivery documentation
+```
+
+## Contributing
+
+Keep contributions evidence-bound and vendor-neutral. Add or update tests for every validator rule, preserve fact/hypothesis separation, and document any new artifact field, owner, guardrail, and reversal condition. Do not add claims that imply guaranteed savings, compliance, unattended monitoring, or autonomous production changes. Open a focused pull request with the validation commands above passing.

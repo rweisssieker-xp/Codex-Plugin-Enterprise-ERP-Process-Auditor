@@ -122,19 +122,28 @@ def create_minimum_suite(plugin_root: Path) -> None:
         EXPECTED_INNOVATION_REGISTER_HEADER,
     )
     write_manifest(plugin_root)
+    write_readme(plugin_root)
 
 
 def write_manifest(plugin_root: Path, manifest: dict | None = None) -> None:
     content = {
         "name": "erp-process-transformation-agent",
         "skills": "./skills/",
-        "interface": {"defaultPrompt": ["Run an evidence-backed ERP process review."]},
+        "interface": {
+            "defaultPrompt": [
+                "Identify evidence-backed innovation opportunities in our ERP process evidence."
+            ]
+        },
     }
     if manifest is not None:
         content = manifest
     manifest_path = plugin_root / ".codex-plugin" / "plugin.json"
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.write_text(json.dumps(content), encoding="utf-8")
+
+
+def write_readme(plugin_root: Path, content: str = "# Plugin\n\n## Innovation Layer\n") -> None:
+    (plugin_root / "README.md").write_text(content, encoding="utf-8")
 
 
 def write_skill(plugin_root: Path, name: str, content: str) -> None:
@@ -167,6 +176,27 @@ class ValidateSuiteTests(unittest.TestCase):
             plugin_root = Path(directory)
             create_minimum_suite(plugin_root)
             self.assertEqual(validate_plugin_root(plugin_root), [])
+
+    def test_readme_and_manifest_reference_innovation_layer(self):
+        with tempfile.TemporaryDirectory() as directory:
+            plugin_root = Path(directory)
+            create_minimum_suite(plugin_root)
+            (plugin_root / "README.md").unlink()
+            self.assertIn("README: missing Innovation Layer", validate_plugin_root(plugin_root))
+
+            write_readme(plugin_root)
+            write_manifest(
+                plugin_root,
+                {
+                    "name": "erp-process-transformation-agent",
+                    "skills": "./skills/",
+                    "interface": {
+                        "defaultPrompt": ["Run an evidence-backed ERP process review."]
+                    },
+                },
+            )
+            errors = validate_plugin_root(plugin_root)
+        self.assertIn("manifest: missing innovation starter prompt", errors)
 
     def test_evidence_skill_requires_statement_types(self):
         with tempfile.TemporaryDirectory() as directory:

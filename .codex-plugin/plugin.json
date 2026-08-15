@@ -1,26 +1,26 @@
 {
   "name": "erp-process-transformation-agent",
   "version": "0.1.0+codex.20260815090814",
-  "description": "Evidence-backed, vendor-neutral ERP transformation suite for process diagnostics, O2C deep dives, internal benchmarking, initiative portfolios, and proof-of-value reviews.",
+  "description": "Evidence-backed, vendor-neutral ERP transformation suite for process diagnostics, innovation opportunities, internal benchmarking, and decision-ready portfolios.",
   "author": {
     "name": "Local developer"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "ERP Process Transformation Agent",
-    "shortDescription": "Evidence-backed ERP transformation diagnostics, internal benchmarks, and initiative value scenarios.",
-    "longDescription": "Turns supplied ERP process evidence into traceable findings, O2C deep dives, comparable internal benchmarks, initiative portfolios, and proof-of-value reviews. It distinguishes facts, observations, hypotheses, and assumptions; it does not provide unsupported savings or compliance assurances.",
+    "shortDescription": "Evidence-backed ERP diagnostics, innovation opportunities, and decision-ready portfolios.",
+    "longDescription": "Turns supplied ERP process evidence into traceable findings, bounded innovation opportunities, comparable internal benchmarks, initiative portfolios, and proof-of-value reviews. It distinguishes facts, observations, hypotheses, and assumptions; it does not provide unsupported savings or compliance assurances.",
     "developerName": "Local developer",
     "category": "Productivity",
     "capabilities": [
       "Interactive"
     ],
     "defaultPrompt": [
+      "Identify evidence-backed innovation opportunities from our supplied ERP process evidence; state the lens, metric, guardrails, owner, kill condition, and next validation.",
       "Run a rapid O2C diagnostic from our supplied process evidence; separate facts from hypotheses and identify the minimum validation evidence.",
       "Create an O2C deep dive with process friction, control, data, and standardization opportunities backed by the supplied evidence.",
       "Build a comparable internal benchmark across our entities using only the supplied evidence, cohort rules, coverage, and confidence.",
-      "Turn these validated findings into an initiative portfolio with owners, dependencies, risks, KPIs, and decision status.",
-      "Prepare a proof-of-value review for these O2C initiatives, including transparent assumptions, double-counting checks, risks, and validation needs."
+      "Turn validated ERP findings and innovation opportunities into an initiative portfolio with owners, dependencies, risks, KPIs, and decision status."
     ]
   }
 }

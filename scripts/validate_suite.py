@@ -96,6 +96,9 @@ INNOVATION_REGISTER_HEADER = (
     "Owner | Guardrails | Confidence | Next Validation | Decision Status"
 )
 MANIFEST_PATH = ".codex-plugin/plugin.json"
+README_PATH = "README.md"
+INNOVATION_README_HEADING = "Innovation Layer"
+INNOVATION_STARTER_PROMPT_PHRASE = "innovation opportunit"
 INITIATIVE_REQUIRED_COLUMNS = {
     "owner function": "owner function",
     "dependencies": "dependencies",
@@ -187,6 +190,18 @@ def validate_plugin_root(plugin_root: Path) -> list[str]:
                 isinstance(prompt, str) and prompt.strip() for prompt in prompts
             ):
                 errors.append("manifest: missing nonempty starter prompts")
+            elif not any(
+                INNOVATION_STARTER_PROMPT_PHRASE in prompt.lower()
+                for prompt in prompts
+                if isinstance(prompt, str)
+            ):
+                errors.append("manifest: missing innovation starter prompt")
+
+    readme_path = plugin_root / README_PATH
+    if not readme_path.is_file() or INNOVATION_README_HEADING not in readme_path.read_text(
+        encoding="utf-8"
+    ):
+        errors.append("README: missing Innovation Layer")
     for name in sorted(REQUIRED_SKILLS):
         skill_path = plugin_root / "skills" / name / "SKILL.md"
         if not skill_path.is_file():
